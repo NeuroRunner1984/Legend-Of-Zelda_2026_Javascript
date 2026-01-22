@@ -24,3 +24,5 @@ update = () => {
 }
 
 }
+
+export {MovementSystem}; 
