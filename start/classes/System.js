@@ -1,3 +1,5 @@
+import {canvas, c} from "../index.js"; 
+
 class System {
 	constructor (systemType) {
 		this.systemType = systemType; 
@@ -13,16 +15,42 @@ class MovementSystem extends System {
 
 update = () => {
 	for(let i = 0; i < this.entities.length; i++) {
-		const entity = entities[i];
+		const entity = this.entities[i];
 
-		let {Movement, Position} = this.entities.components; 
+		let {Movement, Position} = entity.components; 
 
 		Position.x += Movement.vX;
 		Position.y += Movement.vY; 
-
+		console.log(Position.x, Position.y);
 	}
 }
 
 }
 
-export {MovementSystem}; 
+
+class RenderSystem extends System {
+	constructor (systemType) {
+		super(systemType);
+		this.componentRequirements = ["Position"]; 
+	}
+
+	update = () => {
+		
+		for(let i = 0; i < this.entities.length; i++) {
+			
+			const {Position} = this.entities[i].components; 
+			const {x,y, width, height} = Position;
+			
+			console.log("In render system entities", x, y)
+
+			c.clearRect(0, 0, canvas.width,  canvas.height);
+			c.beginPath();
+		c.fillStyle = "red"; 
+		c.fillRect(x, y, width, height); 
+		c.stroke(); 
+
+		}
+	} 
+} 
+
+export {MovementSystem, RenderSystem}; 

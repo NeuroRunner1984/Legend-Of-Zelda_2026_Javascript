@@ -34,6 +34,7 @@ class MovementComponent extends Component {
 		this.collisionX = false;
 		this.collisionY = false; 
 	}
+
 } 
 
 export {MovementComponent, PositionComponent}; 

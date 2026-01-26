@@ -1,10 +1,12 @@
-const canvas = document.getElementById("gameScreen"); 
+import Registry from "./classes/Registry.js";
+
+export const canvas = document.getElementById("gameScreen"); 
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight; 
 
-const c = canvas.getContext("2d");
-console.log("Context: ", c);
+export const c = canvas.getContext("2d");
+
 
 c.beginPath();
 c.fillStyle = "red"; 
@@ -14,6 +16,8 @@ c.stroke();
 class Game {
 	constructor() {
 		this.player = undefined; 
+			this.registry = new Registry();
+		
 	}
 	initialize = () => {
 		this.player = {
@@ -22,24 +26,52 @@ class Game {
 			height: 50,
 			width: 60,
 		}
+
+		this.registry.addSystem("MovementSystem");
+		this.registry.addSystem("RenderSystem");
+
+		const dummyPositionComponent = {
+			name: "Position",
+			value: {
+				x: 0,
+				y: 0,
+				height: 50,
+				windth: 50
+			} 
+
+		}
+
+		const dummyMovementComponent = {
+			name: "Movement",
+			value: {
+				vX: 10,
+				vY: 10
+			}
+		}; 
+
+
+		const entity = this.registry.createEntity([dummyMovementComponent, dummyPositionComponent]);
+
+		//console.log(this.registry.entitiesToBeAdded);
+
+		this.registry.addEntityToSystem(entity)
+
+		console.log(this.registry.systems);
+
 		document.addEventListener("keyup", this.handleUserInput);
 		document.addEventListener("keydown", this.handleUserInput);
 
 	}
 	update = () => {
 		
-
+		this.registry.getSystem("MovementSystem").update();
+		this.registry.getSystem("RenderSystem").update();
 		requestAnimationFrame(this.update);
 
 	}
 
 	render = () => {
-		const {x, y, width, height} = this.player;
-		c.clearRect(0, 0, canvas.width, canvas.height);
-		c.beginPath();
-	c.fillStyle = "red"; 
-	c.fillRect(x, y, width, height); 
-	c.stroke(); 
+		
 	requestAnimationFrame(this.render);
 	}
 

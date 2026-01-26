@@ -3,7 +3,9 @@ class Entity {
 
 	this.id = this.id; 
 	this.registry = registry; 
-	this.components = {}; 
+	this.components = {}; 	
+
+	
 
 	}
 }
