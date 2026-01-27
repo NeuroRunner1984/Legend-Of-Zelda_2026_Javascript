@@ -28,7 +28,7 @@ class PositionComponent extends Component {
 
 class MovementComponent extends Component {
 	constructor(componentType, componentObj) {
-		super(this.componentType);
+		super(componentType);
 		this.vX = componentObj.vX;
 		this.vY = componentObj.vY; 
 		this.collisionX = false;
